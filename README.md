@@ -40,7 +40,7 @@ Entrez votre devinette : 25
 Le nombre est plus grand. Essayez encore.
 Entrez votre devinette : 37
 Bravo ! Vous avez deviné le nombre en 3 essais.
-
+```
 ## Contributeurs 🙌
 Ce programme est une œuvre de génie créée par Reubeen 🧙‍♂️, une personne incroyable, . Découvrez plus de projets passionnants sur mon profil GitHub 🌐.
 
