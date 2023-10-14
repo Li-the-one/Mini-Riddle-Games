@@ -1,43 +1,52 @@
 import random
 
-# Liste de mots à deviner
-mots = ["python", "informatique", "programmation", "challenge", "ordinateur", "apprentissage", "internet", "algorithmes", "developpeur"]
+# Dictionnaire de catégories de mots et leurs listes de mots associées
+categories_mots = {
+    "Animaux": ["chien", "chat", "éléphant", "tigre", "oiseau", "dauphin"],
+    "Pays": ["France", "Italie", "Japon", "Canada", "Brésil", "Australie"],
+    "Nourriture": ["pizza", "hamburger", "spaghetti", "sushi", "chocolat", "fraise"],
+}
 
-def devine_le_mot():
-    mot_a_deviner = random.choice(mots).lower()
-    lettres_devinees = []
+lettres = "abcdefghijklmnopqrstuvwxyz"
+
+def devine_un_mot(categorie):
+    mots_de_la_categorie = categories_mots.get(categorie)
+    if mots_de_la_categorie is None:
+        print(f"Catégorie invalide : {categorie}")
+        return
+
+    mot_a_deviner = random.choice(mots_de_la_categorie).lower()
+    lettres_devinees = set()
     essais_restants = 6
 
     while essais_restants > 0:
         mot_affiche = ""
-        lettres_restantes = 0  # Compteur des lettres restantes à deviner
 
         for lettre in mot_a_deviner:
             if lettre in lettres_devinees:
                 mot_affiche += lettre
             else:
                 mot_affiche += "_"
-                lettres_restantes += 1  # Incrémenter le compteur
         
-        print("\n** Devine le Mot **")
+        print(f"\n** Devine le Mot de la catégorie '{categorie}' **")
         print("Mot à deviner :", mot_affiche)
-        print("Lettres déjà devinées :", lettres_devinees)
+        print("Lettres déjà devinées :", " ".join(lettres_devinees))
         print(f"Essais restants : {essais_restants}")
         
-        if lettres_restantes == 0:
+        if mot_a_deviner == mot_affiche:
             print(f"Félicitations, vous avez deviné le mot : {mot_a_deviner} !")
             return True
         
         supposition = input("Devinez une lettre : ").lower()
         
-        if len(supposition) != 1 or not supposition.isalpha():
+        if len(supposition) != 1 or supposition not in lettres:
             print("Veuillez entrer une seule lettre valide.")
             continue
         
         if supposition in lettres_devinees:
             print("Vous avez déjà deviné cette lettre.")
         else:
-            lettres_devinees.append(supposition)
+            lettres_devinees.add(supposition)
             if supposition in mot_a_deviner:
                 print("Bonne supposition !")
             else:
@@ -45,6 +54,36 @@ def devine_le_mot():
                 essais_restants -= 1
     
     print(f"Désolé, vous avez épuisé tous vos essais. Le mot était : {mot_a_deviner}")
+    return False
+
+def devine_une_lettre():
+    lettre_a_deviner = random.choice(lettres)
+    lettres_devinees = set()
+    essais_restants = 6
+
+    while essais_restants > 0:
+        print("\n** Devine la Lettre **")
+        print("Lettres déjà devinées :", " ".join(lettres_devinees))
+        print(f"Essais restants : {essais_restants}")
+        
+        if len(lettres_devinees) == 25:
+            print(f"Félicitations, vous avez deviné toutes les lettres !")
+            return True
+        
+        supposition = input("Devinez une lettre : ").lower()
+        
+        if len(supposition) != 1 or supposition not in lettres:
+            print("Veuillez entrer une seule lettre valide.")
+            continue
+        
+        if supposition in lettres_devinees:
+            print("Vous avez déjà deviné cette lettre.")
+        else:
+            lettres_devinees.add(supposition)
+            print("Bonne supposition !" if supposition == lettre_a_deviner else "Mauvaise supposition.")
+            essais_restants -= 1
+    
+    print(f"Désolé, vous avez épuisé tous vos essais. La lettre était : {lettre_a_deviner}")
     return False
 
 def devine_le_nombre():
@@ -76,26 +115,48 @@ def devine_le_nombre():
     print(f"Désolé, vous avez épuisé tous vos essais. Le nombre était : {nombre_a_deviner}")
     return False
 
-def rejouer():
-    reponse = input("Voulez-vous rejouer ? (oui/non) : ").lower()
-    return reponse == "oui"
+def affiche_categories():
+    print("Catégories de mots disponibles :")
+    for categorie in categories_mots.keys():
+        print(f"- {categorie}")
 
 def jeu_de_devinette():
     score = 0
     essais = 3
 
-    print("Bienvenue au jeu de devinette ! Vous avez 3 essais pour gagner des points.")
+    print("Bienvenue à Mini Riddle Games ! Vous avez 3 essais pour gagner des points.")
     
     while essais > 0:
-        jeu = random.choice([devine_le_mot, devine_le_nombre])
-        if jeu():
-            score += 1
-        print(f"Votre score actuel : {score}")
-        essais -= 1
+        print("Choisissez un jeu :")
+        print("1. Deviner un Mot")
+        print("2. Deviner une Lettre")
+        print("3. Deviner un Nombre")
+        choix = input("Entrez le numéro du jeu : ")
 
+        if choix == "1":
+            affiche_categories()
+            categorie = input("Choisissez une catégorie : ").capitalize()
+            if categorie in categories_mots:
+                if devine_un_mot(categorie):
+                    score += 1
+                print(f"Votre score actuel : {score}")
+                essais -= 1
+            else:
+                print(f"Catégorie invalide : {categorie}")
+        elif choix == "2":
+            if devine_une_lettre():
+                score += 1
+            print(f"Votre score actuel : {score}")
+            essais -= 1
+        elif choix == "3":
+            if devine_le_nombre():
+                score += 1
+            print(f"Votre score actuel : {score}")
+            essais -= 1
+        else:
+            print("Choix de jeu invalide.")
+    
     print(f"Jeu terminé. Votre score final : {score}")
-    if rejouer():
-        jeu_de_devinette()
 
 if __name__ == "__main__":
     jeu_de_devinette()
