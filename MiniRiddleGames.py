@@ -47,11 +47,8 @@ def devine_un_mot(categorie):
             print("Vous avez déjà deviné cette lettre.")
         else:
             lettres_devinees.add(supposition)
-            if supposition in mot_a_deviner:
-                print("Bonne supposition !")
-            else:
-                print("Mauvaise supposition.")
-                essais_restants -= 1
+            print("Bonne supposition !" if supposition in mot_a_deviner else "Mauvaise supposition.")
+            essais_restants -= 1
     
     print(f"Désolé, vous avez épuisé tous vos essais. Le mot était : {mot_a_deviner}")
     return False
@@ -124,9 +121,10 @@ def jeu_de_devinette():
     score = 0
     essais = 3
 
-    print("Bienvenue à Mini Riddle Games ! Vous avez 3 essais pour gagner des points.")
-    
+    print("Bienvenue à Mini Riddle Games !")
+
     while essais > 0:
+        print(f"Vous avez {essais} partie(s) restante(s).")
         print("Choisissez un jeu :")
         print("1. Deviner un Mot")
         print("2. Deviner une Lettre")
@@ -140,19 +138,16 @@ def jeu_de_devinette():
                 if devine_un_mot(categorie):
                     score += 1
                 print(f"Votre score actuel : {score}")
-                essais -= 1
             else:
                 print(f"Catégorie invalide : {categorie}")
         elif choix == "2":
             if devine_une_lettre():
                 score += 1
             print(f"Votre score actuel : {score}")
-            essais -= 1
         elif choix == "3":
             if devine_le_nombre():
                 score += 1
             print(f"Votre score actuel : {score}")
-            essais -= 1
         else:
             print("Choix de jeu invalide.")
     
