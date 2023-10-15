@@ -45,4 +45,4 @@ Bravo ! Vous avez deviné le nombre en 3 essais.
 Ce programme est une œuvre de génie créée par Reubeen 🧙‍♂️, une personne incroyable, . Découvrez plus de projets passionnants sur mon profil GitHub 🌐.
 
 ## Licence 📜
-Ce programme est sous licence MIT. Pour plus d'informations, consultez le fichier LICENSE inclus. 📄
+Ce programme est sous licence CC BY-NC. Pour plus d'informations, consultez le fichier LICENSE inclus. 📄
